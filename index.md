@@ -430,20 +430,11 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 
 https://github.com/stanfordnlp/dspy
 
-https://wikidocs.net/329463 
-
 https://devocean.sk.com/blog/techBoardDetail.do?ID=166043&boardType=techBlog 
 
 https://wikidocs.net/329463 
-
-https://wikidocs.net/334966 
-
-https://github.com/stanfordnlp/dspy 
 
 https://velog.io/@smj230/%EB%85%BC%EB%AC%B8-%EB%A6%AC%EB%B7%B0-DSPy-Compiling-Declarative-Language-Model-Calls-into-Self-Improving-Pipelines
 
 https://discuss.pytorch.kr/t/hermes-agent-nousresearch-ai/9184 
 
-https://discuss.pytorch.kr/t/hermes-agent-self-evolution-hermes-agent-nousresearch/10136 
-
-https://wikidocs.net/334920
