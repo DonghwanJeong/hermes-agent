@@ -1,4 +1,31 @@
+# 목차
+
+- [Hermes Agent](#hermes-agent)
+- [Architecture](#architecture)
+  - [React + Iteration budget + Tool](#react--iteration-budget--tool)
+    - [백그라운드 큐레이터](#백그라운드-큐레이터)
+      - [작동 방식](#작동-방식)
+      - [적용 대상 및 정보](#적용-대상-및-정보)
+    - [메모리](#메모리)
+    - [스킬](#스킬)
+- [Self-evaluation System (DSPy + GEPA)](#self-evaluation-system-dspy--gepa)
+  - [DSPy (Declarative Self-improving Language Programs, pythonically)](#dspy-declarative-self-improving-language-programs-pythonically)
+    - [문제 정의](#문제-정의)
+    - [제안 방법](#제안-방법)
+      - [Signature: 입출력 선언](#signature-입출력-선언)
+      - [Module: 재사용 가능한 LM 호출 패턴](#module-재사용-가능한-lm-호출-패턴)
+      - [Teleprompter (Optimizer): 자동 최적화](#teleprompter-optimizer-자동-최적화)
+      - [핵심 철학 : 분리](#핵심-철학--분리)
+    - [시사점 (영향)](#시사점-영향)
+  - [GEPA (Genetic-Pareto)](#gepa)
+    - [문제 정의](#문제-정의-1)
+    - [접근 방식](#접근-방식)
+    - [세부 적용 기술](#세부-적용-기술)
+- [Reference](#reference)
+
 # Hermes Agent
+
+
 
 - 터미널에서 `hermes`를 입력하면 대화가 시작되고, 파일을 읽고 쓰고, 웹을 검색하고, 명령을 실행하고, 메시지를 보내는 등 다양한 작업을 수행
 
@@ -97,7 +124,7 @@
     |---|---|
     |active|최근에 쓰인 스킬|
     |stale|stale_after_days 동안 안 쓰인 스킬 (기본 30일)|
-    |archived|archive_after_days 동안 안 쓰인 스킬 (기본 60일). ~/.hermes/skills/.archive/로 이동|
+    |archived|archive_after_days 동안 안 쓰인 스킬 (기본 60일). `~/.hermes/skills/.archive/`로 이동|
 
     - pin된 스킬은 이 자동 전이를 받지 않습니다.
 
@@ -167,7 +194,7 @@
 3. 에이전트가 사용자에게 응답을 완료한 후, 별도의 백그라운드 스레드에서 리뷰 에이전트 실행
 4. 리뷰 에이전트는 대화 내용을 검토하고, 재사용 가능한 워크 플로우가 있는 경우 `skill_manage` 도구로 스킬 생성
 
-## Self-evaluation System (DSPy + GEPA)
+# Self-evaluation System (DSPy + GEPA)
 - https://github.com/NousResearch/hermes-agent-self-evolution
 
 - 이 별도 시스템은 DSPy + GEPA(Genetic-Pareto Prompt Evolution)를 사용하여 에이전트의 구성요소를 자동으로 최적화 함
@@ -313,7 +340,7 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 → 모델을 바꿔도 re-compile만 하면 됨
 ```
 
-#### 시사점 (영향)
+### 시사점 (영향)
 
 - "프롬프트 엔지니어링 → 프롬프트 프로그래밍" 패러다임 전환의 선두주자
 - LLM 애플리케이션을 소프트웨어 공학적으로 다루는 프레임워크 — 테스트, 최적화, 재현 가능
@@ -321,7 +348,7 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 - Stanford NLP 그룹(ColBERT, Alpaca의 저자들)의 집대성
 - LangChain/LlamaIndex와 다른 철학: 체이닝(how) 대신 선언(what)에 집중
 
-## GEPA
+## GEPA (Genetic-Pareto)
 
 - GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning (ICLR 2026 Oral)
 - https://arxiv.org/abs/2507.19457
@@ -364,8 +391,24 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 - Sample efficiency
 
 
-## Reference
+# Reference
 
-<https://github.com/stanfordnlp/dspy>
+https://github.com/stanfordnlp/dspy
 
-<https://velog.io/@smj230/%EB%85%BC%EB%AC%B8-%EB%A6%AC%EB%B7%B0-DSPy-Compiling-Declarative-Language-Model-Calls-into-Self-Improving-Pipelines>
+https://wikidocs.net/329463 
+
+https://devocean.sk.com/blog/techBoardDetail.do?ID=166043&boardType=techBlog 
+
+https://wikidocs.net/329463 
+
+https://wikidocs.net/334966 
+
+https://github.com/stanfordnlp/dspy 
+
+https://velog.io/@smj230/%EB%85%BC%EB%AC%B8-%EB%A6%AC%EB%B7%B0-DSPy-Compiling-Declarative-Language-Model-Calls-into-Self-Improving-Pipelines
+
+https://discuss.pytorch.kr/t/hermes-agent-nousresearch-ai/9184 
+
+https://discuss.pytorch.kr/t/hermes-agent-self-evolution-hermes-agent-nousresearch/10136 
+
+https://wikidocs.net/334920
