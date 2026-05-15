@@ -24,12 +24,14 @@
 - [Reference](#reference)
 
 # Hermes Agent
+![alt text](image.png)
 
-![alt text](image-3.png)
 
 - Opensource AI group, LLM 기업 Nous Research가 발표한 모델 
   - 2024년 8월, Hermes 3 AI 
   - 2025년 8월, Hermes 4 AI
+
+![alt text](image-3.png)
 
 - 터미널에서 `hermes`를 입력하면 대화가 시작되고, 파일을 읽고 쓰고, 웹을 검색하고, 명령을 실행하고, 메시지를 보내는 등 다양한 작업을 수행
 
@@ -48,7 +50,18 @@
   - 확장성 및 연구자 친화적 환경 : MCP, Tool-calling model,등
 
 
-![alt text](image.png)
+| 구분          | OpenClaw                                            | Hermes Agent                                             |
+| ----------- | --------------------------------------------------- | -------------------------------------------------------- |
+| 핵심 초점       | 여러 채널과 여러 agent를 연결/라우팅                             | 단일 agent의 장기적 self-improvement                           |
+| 주요 단위       | Gateway, channel, session, workspace, agent binding | Memory, skill, session search, learning loop             |
+| Multi-agent | 강점. isolated agents/workspaces 라우팅                  | 기본 설명상 single agent 중심, 필요 시 subagent/tool 사용            |
+| Skill       | config/registry/agent별 노출 관리에 가까움                   | agent가 task 후 자동 생성/수정하는 procedural memory               |
+| Memory      | session/history/workspace 중심                        | prompt memory, session search, skills, Honcho 등 layer 분리 |
+| 사용감         | “여러 앱에서 항상 부를 수 있는 개인 AI 라우터”                       | “쓸수록 내 workflow를 배워가는 개인 agent”                          |
+
+
+![alt text](image-5.png)
+
 
 # Architecture
 
