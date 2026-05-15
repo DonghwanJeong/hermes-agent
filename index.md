@@ -23,6 +23,7 @@
 ## React + Iteration budget + Tool
 - 내부는 Monolithic이 아닌 느슨하게 결합된 sub-system으로 구성.
 - ReAct Loop 구성
+
     ```
     run_conversation(user_message)
     1. 이터레이션 버짓 초기화 (IterationBudget)
@@ -39,6 +40,7 @@
         g. 도구 호출이 있으면 → 실행 후 루프 계속
         h. 최종 텍스트면 → 세션 저장, 결과 반환
     ```
+
 - Iteration Budget
   - 부모 에이전트와 서브 에이전트가 공유 이터레이션 버짓을 사용. 아래 클래스가 스레드 안전한 카운터 제공
   ```
@@ -66,6 +68,7 @@
   - 턴이 쌓일수록 대화 이력도 함께 재전송되므로 토큰 소비는 가속
   - hermes뿐만 아니라 Stateless 기반 LLM API를 사용하는 모든 에이전트의 공통특성
 - 캐시된 프롬프트
+
     |순서|레이어|설명|
     |------|---|---|
     |1|	에이전트 아이덴티티	| SOUL.md 우선, 없으면 DEFAULT_AGENT_IDENTITY|
@@ -78,6 +81,7 @@
     |8|	컨텍스트 파일|	AGENTS.md, .cursorrules, .hermes.md|
     |9|	타임스탬프 + 모델 정보|	대화 시작 시점 고정|
     |10|	플랫폼 힌트	|cli, telegram, discord 등에 따른 포맷 가이드|
+
 - 세션 영속화 : SQLite 기반 상태를 저장 (`~/.germes/state.db`로 JSONL 형태가 아님)
 - 서브에이전트 위임
 
@@ -88,11 +92,13 @@
 
 #### 작동 방식
 1. 1단계 - 휴리스틱 (w/o LLM call)
+
     |상태|의미|
     |---|---|
     |active|최근에 쓰인 스킬|
     |stale|stale_after_days 동안 안 쓰인 스킬 (기본 30일)|
     |archived|archive_after_days 동안 안 쓰인 스킬 (기본 60일). ~/.hermes/skills/.archive/로 이동|
+
     - pin된 스킬은 이 자동 전이를 받지 않습니다.
 
 2. 2단계 - LLM Reivew pass
@@ -114,6 +120,7 @@
     - 프로젝트 규칙과 관례
     - 과거에 배운 교훈
     - 문제 해결 방법 (workaround)
+
     ```
     ## 환경
     - macOS Big Sur 11.7, Intel Mac
@@ -127,6 +134,7 @@
     ## 교훈
     - llama3.1:8b는 복잡한 도구 체인에서 실수가 잦음 → 14B 모델 사용 권장
     ```
+
 - user.md
   - 용량: 최대 1,375자 (약 500 토큰)
   - 사용자에 대한 프로필 정보입니다.
@@ -135,6 +143,7 @@
     - 선호하는 작업 방식
     - 전문 분야
     - 커뮤니케이션 스타일
+
     ```
     ## 프로필
     - 이름: Yong
@@ -146,10 +155,12 @@
     - 코드 주석: 한국어
     - 설명 스타일: 실습 중심, 간결하게
     ```
+
 - 메모리의 작동 방식 / 용량관리
     - 메모리는 세션 시작 시 시스템 프롬프트에 주입
     - 중복은 자동으로 거부, 80% 이상일때 consolidate(정리) 기능, 정리는 Agent의 판단 하에 진행
     - 백그라운드 리뷰 시스템이 적용되어있어 memory 도구를 일정대화동안 호출하지 않으면 백그라운드로 리뷰 에이전트가 메모리 저장여부를 판단하여 업데이트
+
 ### 스킬
 1. 에이전트가 대화 중 도구를 반복적으로 호출
 2. 도구 호출이 일정 횟수가 누적되면 리뷰 플래그 활성
@@ -175,6 +186,7 @@
     3. 각 변형의 성능을 평가
     4. 파레토 최적(Pareto optimal) 변형을 선택
     5. 다음 세대로 진행
+
     ```
     Read current skill/prompt/tool ──► Generate eval dataset
                                             │
@@ -208,7 +220,7 @@ AlixPartners의 기술 컨설턴트 Kevin Madura가 AI Engineer 컨퍼런스에�
 
 ### 문제 정의
 
-- 현재 LLM Application 개발 문제
+- 현재 LLM Application 개발 문제    
 
 ```
 전형적인 RAG 파이프라인의 프롬프트:
