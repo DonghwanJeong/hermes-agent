@@ -167,8 +167,7 @@
 3. 에이전트가 사용자에게 응답을 완료한 후, 별도의 백그라운드 스레드에서 리뷰 에이전트 실행
 4. 리뷰 에이전트는 대화 내용을 검토하고, 재사용 가능한 워크 플로우가 있는 경우 `skill_manage` 도구로 스킬 생성
 
-## Self-evaluation System (DPSy + GEPA)
-
+## Self-evaluation System (DSPy + GEPA)
 - https://github.com/NousResearch/hermes-agent-self-evolution
 
 - 이 별도 시스템은 DSPy + GEPA(Genetic-Pareto Prompt Evolution)를 사용하여 에이전트의 구성요소를 자동으로 최적화 함
@@ -203,7 +202,9 @@
     ```
 
 
-## DPSy (Declarative Self-improving Language Programs, pythonically)
+## DSPy (Declarative Self-improving Language Programs, pythonically)
+- https://arxiv.org/abs/2310.03714
+- https://github.com/stanfordnlp/dspy
 
 !["프롬프트를 쓰지 마라. 프로그램을 짜라."](image-1.png)
 <"프롬프트를 쓰지 마라. 프로그램을 짜라.", AlixPartners의 기술 컨설턴트 Kevin Madura가 AI Engineer 컨퍼런스에서 발표>
@@ -323,20 +324,48 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 ## GEPA
 
 - GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning (ICLR 2026 Oral)
+- https://arxiv.org/abs/2507.19457
 - 독립적인 프롬프트 최적화 기법
 - https://github.com/gepa-ai/gepa
-- GEPA가 GRPO 대비 평균 6%(최대 20%) 높은 성능을 35배 적은 롤아웃으로 달성
+- GEPA가 GRPO(Group Relative Policy optimization, DeepseekMath paper) 대비 평균 6%(최대 20%) 높은 성능을 35배 적은 롤아웃으로 달성
+  - DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models 2024'
 - 에이전트의 실행 궤적(추론, 도구 호출, 도구 출력)을 자연어로 반성(reflect)하여 프롬프트 개선점을 진단하는 방식
+    - 프롬프트 최적화(prompt optimization)
+    - GEPA(Genetic-Pareto)는 이 과정에 '자연어로 되돌아보기(Reflective language feedback)'를 도입
+    - `AI가 스스로 행동을 되돌아보고, 어떤 점이 좋았고 부족했는지를 자연어로 분석해, 다음 프롬프트를 개선하는 방식`
+
+![alt text](image-2.png)
+
+### 문제 정의
+- 기존에는 LLM을 특정 작업에 맞게 최적화하기 위해 RL 방식이 주로 사용
+- 하지만 아래와 같은 한계 발생 
+  - 샘플 비효율성 : 새로운 작업을 하려면 `수만 번의 시도`가 필요
+  - 고비용 : 각 시도는 고성능 모델 호출, 외부 도구 실행 등으로 인해 `시간과 비용`이 많이 듬
+  - 해석 불가 : 보상 신호가 숫자로 주어지기 때문에, `모델이 왜 실패했는지 알기 어려움`
 
 
+### 접근 방식
+1. 자연어 반성 기반 프롬프트 진화 : 모델의 실행 기록을 분석하고, `이를 자연어로 Reflection 해보고 문제점`을 진단
+2. 유전 알고리즘 기반 프롬프트 변화 : 좋은 프롬프트 기반으로 `다양하게 Mutation` 하면서 점차 향상된 프롬프트 생성
+3. Pareto 기반 후보 선택 : 모든 테스트에서 평균적으로 좋은 프롬프트만 선택하는게 아니라, 특정 테스트에서 최고 성과를 낸 다양한 프롬프트를 유지하면서 `균형있게 최적화`
+
+> Reflection이란? reflection은 단순히 실행 결과를 보고 성공/실패를 판단하는 것이 아니라 다음과 같은 과정을 진행
+>  - Reflexion: Language Agents with Verbal Reinforcement Learning : https://arxiv.org/abs/2303.11366
+> 
+> Pareto : '하나를 개선하면 다른 것이 나빠지지 않아야 한다'는 다목적 최적화(Multi-objective optimization) 개념
+>   - Pareto Optimal : 여러 목표 (예: 성능, 비용, 효율성 등)을 동시에 고려해야 할 때, 어떤 해결책이 다른 해결책보다 전반적으로 더 우수한 경우
+> * 한 분야에서는 좀 뒤쳐질 수도 있지만 전략적 우수성 때문에 진화 과정에서 훨씬 더 앞서나갈 수 있는 것이 존재할 수 있다는 얘기로, 이런 것들을 좀 더 보존하면서 진행해야 함
+>   - Pareto Principle : 전체 결과 80%가 전체 원인의 20%에서 비롯된다. 80:20 법칙
+
+### 세부 적용 기술
+- Reflective Prompt
+- Pareto-based Candidate Selection
+- System-aware Merge
+- Sample efficiency
 
 
 ## Reference
 
-<https://arxiv.org/abs/2310.03714>
-
 <https://github.com/stanfordnlp/dspy>
 
 <https://velog.io/@smj230/%EB%85%BC%EB%AC%B8-%EB%A6%AC%EB%B7%B0-DSPy-Compiling-Declarative-Language-Model-Calls-into-Self-Improving-Pipelines>
-
-<https://arxiv.org/abs/2507.19457>
