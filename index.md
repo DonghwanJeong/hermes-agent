@@ -8,7 +8,7 @@
       - [적용 대상 및 정보](#적용-대상-및-정보)
     - [메모리](#메모리)
     - [스킬](#스킬)
-- [Self-evaluation System (DSPy + GEPA)](#self-evaluation-system-dspy--gepa)
+- [Self-evolution System (DSPy + GEPA)](#self-evolution-system-dspy--gepa)
   - [DSPy (Declarative Self-improving Language Programs, pythonically)](#dspy-declarative-self-improving-language-programs-pythonically)
     - [문제 정의](#문제-정의)
     - [제안 방법](#제안-방법)
@@ -25,15 +25,20 @@
 
 # Hermes Agent
 
+![alt text](image-3.png)
 
+- Opensource AI group, LLM 기업 Nous Research가 발표한 모델 
+  - 2024년 8월, Hermes 3 AI 
+  - 2025년 8월, Hermes 4 AI
 
 - 터미널에서 `hermes`를 입력하면 대화가 시작되고, 파일을 읽고 쓰고, 웹을 검색하고, 명령을 실행하고, 메시지를 보내는 등 다양한 작업을 수행
 
 - 메모리와 스킬로 사용할수록 똑똑해지는 "성장하는 에이전트"는 OpenClaw를 비롯해 이 분야의 공통 흐름
 
-- Hermes Agent도 같은 방향이지만, 복잡한 작업이 끝난 뒤 백그라운드에서 대화를 리뷰하고 스스로 스킬을 생성하는 자동화 메커니즘에 더해, 백그라운드 큐레이터가 7일 주기로 라이브러리 전체를 정리해 주는 단계까지 와 있는 것이 특징
+- Hermes Agent도 같은 방향이지만, 복잡한 작업이 끝난 뒤 `백그라운드에서 대화를 리뷰하고 스스로 스킬을 생성하는 자동화 메커니즘`에 더해, `백그라운드 큐레이터가 7일 주기로 라이브러리 전체를 정리해 주는 단계까지 와 있는 것`이 특징
+- `Self-evolution System`을 갖춰 세대를 업그레이드
 
-- 특징(대부분 Openclaw와 같은 Autonomous AI Agent와 유사) 
+- 특징 (대부분 Openclaw와 같은 Autonomous AI Agent와 유사) 
   - 폐쇄형 학습 루프
   - 강력한 터미널 및 멀티 플랫폼 인터페이스
   - 모델 불가지론적 아키텍처 : 특정 벤더의 API에 종속되지 않음 (z.ai/GLM, OpenRouter, Nous Portal, kimi 등 어떤 모델이든 사용 가능)
@@ -194,7 +199,8 @@
 3. 에이전트가 사용자에게 응답을 완료한 후, 별도의 백그라운드 스레드에서 리뷰 에이전트 실행
 4. 리뷰 에이전트는 대화 내용을 검토하고, 재사용 가능한 워크 플로우가 있는 경우 `skill_manage` 도구로 스킬 생성
 
-# Self-evaluation System (DSPy + GEPA)
+# Self-evolution System (DSPy + GEPA)
+![alt text](image-4.png)
 - https://github.com/NousResearch/hermes-agent-self-evolution
 
 - 이 별도 시스템은 DSPy + GEPA(Genetic-Pareto Prompt Evolution)를 사용하여 에이전트의 구성요소를 자동으로 최적화 함
@@ -236,15 +242,15 @@
 !["프롬프트를 쓰지 마라. 프로그램을 짜라."](image-1.png)
 <"프롬프트를 쓰지 마라. 프로그램을 짜라.", AlixPartners의 기술 컨설턴트 Kevin Madura가 AI Engineer 컨퍼런스에서 발표>
 
-DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines (The Twelfth International Conference on Learning Representations Journal, 2024)
+- DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines (The Twelfth International Conference on Learning Representations Journal, 2024)
 
-DSPy를 단순한 라이브러리 소개가 아니라 LLM 애플리케이션을 구축하는 패러다임 자체의 전환으로 제시
+- DSPy를 단순한 라이브러리 소개가 아니라 LLM 애플리케이션을 구축하는 패러다임 자체의 전환으로 제시
 
-파이썬 스타일로 작성된 선언적이고 스스로 개선되는 기능을 갖춘 자연어 처리 프로그램을 의미
+- 파이썬 스타일로 작성된 선언적이고 스스로 개선되는 기능을 갖춘 자연어 처리 프로그램을 의미
 
-이 프레임워크에서는 LLM 파이프라인이 무엇을 할 것인지를 명확히 선언하면, 내부적으로 스스로 학습하고 최적화하여 성능을 향상시키는 기능이 있음
+- 이 프레임워크에서는 LLM 파이프라인이 무엇을 할 것인지를 명확히 선언하면, 내부적으로 스스로 학습하고 최적화하여 성능을 향상시키는 기능이 있음
 
-AlixPartners의 기술 컨설턴트 Kevin Madura가 AI Engineer 컨퍼런스에서 발표한 세션
+- AlixPartners의 기술 컨설턴트 Kevin Madura가 AI Engineer 컨퍼런스에서 발표한 세션
 
 ### 문제 정의
 
@@ -273,6 +279,7 @@ AlixPartners의 기술 컨설턴트 Kevin Madura가 AI Engineer 컨퍼런스에�
 ### 제안 방법
 
 #### Signature: 입출력 선언
+- 장황하게 프롬프트를 문장으로 직접 쓰는게 아닌, `관련 문맥이 들어오고, 질문이 들어오면, 짧은 대답을 내야한다`의 작업 계약 선언
 
 ```python
 # 기존: 장황한 프롬프트 직접 작성
@@ -287,6 +294,7 @@ class GenerateAnswer(dspy.Signature):
 ```
 
 #### Module: 재사용 가능한 LM 호출 패턴
+- Signature가 `무엇을 입력받고 무엇을 출력할지`를 정의한다면, Module에서는 실제 파이프라인에서 어떻게 설정할지를 구성
 
 ```python
 # 내장 모듈
@@ -307,6 +315,8 @@ class RAG(dspy.Module):
 ```
 
 #### Teleprompter (Optimizer): 자동 최적화
+- DSPy에서 자동 최적화를 하는 담당하는 부분으로, 학습 데이터와 평가 메트릭을 주면 Teleprompter가 여러 후보를 만들어내고 성능 좋은 조합을 찾음
+
 ```
 컴파일 과정:
 
@@ -390,6 +400,31 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 - System-aware Merge
 - Sample efficiency
 
+
+## Hermes Agent Self-Evolution이 진화시키는 영역과 엔진
+- No GPU training required. Everything operates via API calls — mutating text, evaluating results, and selecting the best variants. ~$2-10 per optimization run.
+
+
+|페이즈| 진화 대상|	엔진	|상태|
+|---|---|---|---|
+|Phase 1|	스킬 파일(SKILL.md)	|DSPy + GEPA	|✅ Implemented
+|Phase 2|	도구 설명(Tool Description)	|DSPy + GEPA	|🔲 Planned
+|Phase 3|	시스템 프롬프트 섹션|	DSPy + GEPA	|🔲 Planned
+|Phase 4|	도구 구현 코드	|Darwinian Evolver|	🔲 Planned
+|Phase 5|	지속적 개선 루프	|자동화 파이프라인	|🔲 Planned
+
+## Hermes Agent Self-Evolution의 가드레일 정책
+- 의도치 않은 회귀(Regression)나 비대칭한 동작 변경이 발생할 위험이 큼. 이를 막기 위해 Hermes Agent Self-Evolution에서 5가지 가드레일 명시
+
+1. Full test suite — pytest tests/ -q must pass 100%
+2. Size limits — Skills ≤15KB, tool descriptions ≤500 chars
+3. Caching compatibility — No mid-conversation changes
+4. Semantic preservation — Must not drift from original purpose
+5. PR review — All changes go through human review, never direct commit
+
+## 시사점
+- 이 시스템의 존재는 Hermes Agent가 단순한 엔지니어링 프로젝트가 아니라, 연구 기반의 프레임워크임
+- RL 학습 파이프라인(Atropos)을 자체 구축하고, 학회에서 검증된 외부 기법(GEPA)을 프롬프트 최적화에 적용하는 등 여러 방향의 자기 개선을 시도
 
 # Reference
 
